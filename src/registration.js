@@ -18,14 +18,14 @@ class Registration {
         this.links = this.storage.load('./src/links.json');
 
         this.selectors = {
-            mail: "#login",
+            mail: "#reg_login",
             domainButton: ".rui-Select-arrow",
             domainMenu: ".rui-Menu-content",
-            pass: "#newPassword",
-            passVerify: "#confirmPassword",
-            questionType: "input[placeholder='Выберите вопрос']",
+            pass: "#reg_new_password",
+            passVerify: "#reg_confirm_password",
+            questionType: "input[placeholder='Выберите вопрос'][tabindex='0']",
             questionSelect: "div[data-cerber-id*='Почтовый индекс ваших родителей']",
-            questionAnswer: "#answer",
+            questionAnswer: "#reg_answer",
             hCapcha: "#checkbox",
             submit: "button[type=submit]",
             submitImapChange: 'button.MailAppsChange-submitButton-S7'
@@ -132,6 +132,7 @@ class Registration {
             await page.goto(this.links.url);
     
             await page.waitForSelector(this.selectors.mail);
+            await this.sleep(1000);
             await page.type(this.selectors.mail, login, {delay: 20});
 
             await page.evaluate(() => {
@@ -152,13 +153,14 @@ class Registration {
             await page.type(this.selectors.pass, pass, {delay: 20});
     
             await page.type(this.selectors.passVerify, pass, {delay: 20});
-    
+            console.log("click")
             await page.click(this.selectors.questionType);
-    
+            console.log("clickquestiontype")
             await page.waitForSelector(this.selectors.questionSelect);
+            console.log("waitedforselector")
             await this.sleep(100);
             await page.click(this.selectors.questionSelect);
-    
+            console.log("clickquestionselect")
             await page.type(this.selectors.questionAnswer, code, {delay: 20});
             await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
 
